@@ -4,11 +4,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.TimeUtils;
 
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
 
 public class MyBroadCastReciever extends BroadcastReceiver {
-
+    public static long TimeUsage = 0;
+    private long t;
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
@@ -19,6 +24,15 @@ public class MyBroadCastReciever extends BroadcastReceiver {
 
             Log.i("ACTION_SCREEN ",intent.getAction().toString() + " " + Calendar.getInstance().getTime().toString());
             //Take count of the screen off position
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
+            {
+                TimeUsage += (Calendar.getInstance().getTimeInMillis()-t);
+        }
+            else
+            {
+                t = Calendar.getInstance().getTimeInMillis();
+            }
+            Log.i("TimeUsage ",String.valueOf(TimeUsage));
         }
         //throw new UnsupportedOperationException("Not yet implemented");
     }
