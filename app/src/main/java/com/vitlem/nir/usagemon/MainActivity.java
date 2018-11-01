@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.WRITE_EXTERNAL_STORAGE },
                 MY_PERMISSIONS_REQUEST);
         */
-
+        deleteBackGroundPref(this,mAppWidgetId);
         MyBroadCastReciever.Timetemp=loadTitlePrefNum0(this,mAppWidgetId);
         Intent intent = new Intent(this, ScreenMonService.class);
         startService(intent);
@@ -42,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume () {
         super.onResume();
-
+        deleteBackGroundPref(this,mAppWidgetId);
         UpdateText();
 }
 
     protected void onRestart () {
         super.onRestart();
+        deleteBackGroundPref(this,mAppWidgetId);
         UpdateText();
 
     }
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     // Write the prefix to the SharedPreferences object for this widget
     static void saveTitleNum0(Context context, int appWidgetId, long text) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putLong(PREF_PREFIX_KEY + appWidgetId, text);
+        prefs.putLong(PREF_PREFIX_KEY + appWidgetId+ getCurrentDateinLong(0), text);
         prefs.apply();
         Log.d("S_titleValue",String.valueOf(text));
     }
@@ -74,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from a resource
     static long loadTitlePrefNum0(Context context, int appWidgetId) {
+        //Log.d("getCurrentDateinLong ",String.valueOf(getCurrentDateinLong(0)));
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        Long titleValue = prefs.getLong(PREF_PREFIX_KEY + appWidgetId, 0);
+        Long titleValue = prefs.getLong(PREF_PREFIX_KEY + appWidgetId+ getCurrentDateinLong(0), 0);
         if (titleValue >0 ) {
             Log.d("L_titleValue",String.valueOf(titleValue));
             return titleValue;
@@ -84,7 +86,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    static void deleteBackGroundPref(Context context, int appWidgetId) {
+        try {
+            SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+            prefs.remove(PREF_PREFIX_KEY + appWidgetId+ getCurrentDateinLong(-7));
+            prefs.apply();
+        }
+        catch (Exception e)
+        {
+            Log.i("Delete Pref",e.getMessage() );
+        }
+    }
 
+
+    private static int getCurrentDateinLong(int offset)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date() );
+        calendar.add(Calendar.DATE,offset);
+        Log.i("getCurrentDateinLong ",String.valueOf(calendar.get(Calendar.DAY_OF_WEEK)) );
+        return calendar.get(Calendar.MILLISECOND);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
