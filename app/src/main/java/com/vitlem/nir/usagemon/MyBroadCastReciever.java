@@ -27,6 +27,7 @@ public class MyBroadCastReciever extends BroadcastReceiver {
             else
             {
                 Timetemp = Calendar.getInstance().getTimeInMillis();
+                MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,Timetemp);
                 Log.i("t ",String.valueOf(Timetemp));
             }
             Log.i("TimeUsage ",String.valueOf(TimeUsage));

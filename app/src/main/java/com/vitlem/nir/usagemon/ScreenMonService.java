@@ -1,6 +1,7 @@
 package com.vitlem.nir.usagemon;
 
 import android.app.IntentService;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +42,11 @@ public class ScreenMonService extends IntentService {
      * @see IntentService
      */
     // TODO: Customize helper method
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_STICKY;
+    }
 
 
     public static void startActionFoo(Context context, String param1, String param2) {
