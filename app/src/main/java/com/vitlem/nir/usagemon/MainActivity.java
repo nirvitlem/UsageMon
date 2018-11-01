@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = findViewById(R.id.UsageText);
         if (MyBroadCastReciever.Timetemp>0) MyBroadCastReciever.TimeUsage += (Calendar.getInstance().getTimeInMillis()-MyBroadCastReciever.Timetemp);
         MyBroadCastReciever.Timetemp = Calendar.getInstance().getTimeInMillis();
-        String t =( new SimpleDateFormat("HH:mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage));
+        String t =( new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage));
         tv.setText(t);
     }
 }
