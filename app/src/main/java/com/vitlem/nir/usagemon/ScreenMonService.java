@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.util.Calendar;
+
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -39,12 +41,15 @@ public class ScreenMonService extends IntentService {
      * @see IntentService
      */
     // TODO: Customize helper method
+
+
     public static void startActionFoo(Context context, String param1, String param2) {
         Intent intent = new Intent(context, ScreenMonService.class);
         intent.setAction(ACTION_FOO);
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
+        MyBroadCastReciever.Timetemp = Calendar.getInstance().getTimeInMillis();
     }
 
     /**

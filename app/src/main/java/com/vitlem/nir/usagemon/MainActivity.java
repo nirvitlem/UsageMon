@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     public PendingIntent service = null;
@@ -16,15 +20,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(this, ScreenMonService.class);
         startService(intent);
-        TextView tv = findViewById(R.id.UsageText);
-        tv.setText(String.valueOf(MyBroadCastReciever.TimeUsage));
+        UpdateText();
     }
 
 
-    protected void onResume (Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume () {
+        super.onResume();
 
+        UpdateText();
+}
+
+    protected void onRestart () {
+        super.onRestart();
+        UpdateText();
+
+    }
+
+    private void UpdateText()
+    {
         TextView tv = findViewById(R.id.UsageText);
-        tv.setText(String.valueOf(MyBroadCastReciever.TimeUsage));
+        if (MyBroadCastReciever.Timetemp>0) MyBroadCastReciever.TimeUsage += (Calendar.getInstance().getTimeInMillis()-MyBroadCastReciever.Timetemp);
+        MyBroadCastReciever.Timetemp = Calendar.getInstance().getTimeInMillis();
+        String t =( new SimpleDateFormat("HH:mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage));
+        tv.setText(t);
     }
 }
