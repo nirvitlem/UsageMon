@@ -21,4 +21,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    protected void onResume (Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        TextView tv = findViewById(R.id.UsageText);
+        tv.setText(String.valueOf(MyBroadCastReciever.TimeUsage));
+    }
 }
