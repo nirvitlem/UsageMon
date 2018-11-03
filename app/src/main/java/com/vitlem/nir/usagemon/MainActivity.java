@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         MyBroadCastReciever.TimeUsage=loadTitlePrefNum0(this,mAppWidgetId);
         Intent intent = new Intent(this, ScreenMonService.class);
         startService(intent);
+        UpdateText();
 
 
     }

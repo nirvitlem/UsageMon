@@ -55,7 +55,7 @@ public class ScreenMonService extends IntentService {
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
-       // MyBroadCastReciever.Timetemp = Calendar.getInstance().getTimeInMillis();
+        //MyBroadCastReciever.Timetemp = Calendar.getInstance().getTimeInMillis();
     }
 
     /**
@@ -126,8 +126,12 @@ public class ScreenMonService extends IntentService {
 
         Log.i("ScreenOnOff", "Service  distroy");
         ACTION_STATUS="onDestroy";
-        if(mReceiver!=null)
+        if(mReceiver!=null) {
+            Intent intent = new Intent(this, ScreenMonService.class);
+            startService(intent);
             unregisterReceiver(mReceiver);
+        }
         super.onDestroy();
+
     }
 }

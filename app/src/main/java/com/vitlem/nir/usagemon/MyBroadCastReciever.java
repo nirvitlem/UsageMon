@@ -26,15 +26,16 @@ public class MyBroadCastReciever extends BroadcastReceiver {
                 {
                     TimeUsage += (Calendar.getInstance().getTimeInMillis()-Timetemp);
                     MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,TimeUsage);
+                    Log.i("ACTION_SCREEN_OFF ",String.valueOf(TimeUsage));
                 }
             }
             else
             {
                 Timetemp = Calendar.getInstance().getTimeInMillis();
                 //MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,Timetemp);
-                Log.i("t ",String.valueOf(Timetemp));
+                Log.i("ACTION_SCREEN_ON ",String.valueOf(Timetemp));
             }
-            Log.i("TimeUsage ",String.valueOf(TimeUsage));
+
         }
         //throw new UnsupportedOperationException("Not yet implemented");
     }
