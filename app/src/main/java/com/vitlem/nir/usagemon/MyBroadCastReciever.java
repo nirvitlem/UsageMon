@@ -22,12 +22,16 @@ public class MyBroadCastReciever extends BroadcastReceiver {
             //Take count of the screen off position
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
             {
-                if (Timetemp>0) TimeUsage += (Calendar.getInstance().getTimeInMillis()-Timetemp);
+                if (Timetemp>0)
+                {
+                    TimeUsage += (Calendar.getInstance().getTimeInMillis()-Timetemp);
+                    MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,TimeUsage);
+                }
             }
             else
             {
                 Timetemp = Calendar.getInstance().getTimeInMillis();
-                MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,Timetemp);
+                //MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,Timetemp);
                 Log.i("t ",String.valueOf(Timetemp));
             }
             Log.i("TimeUsage ",String.valueOf(TimeUsage));
