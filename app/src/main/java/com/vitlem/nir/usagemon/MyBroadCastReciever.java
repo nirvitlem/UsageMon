@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MyBroadCastReciever extends BroadcastReceiver {
     public static long TimeUsage = 0;
@@ -15,7 +17,7 @@ public class MyBroadCastReciever extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
 
-
+        Log.i("MyBroadCastReciever ","onReceive");
         if ((intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) || (intent.getAction().equals(Intent.ACTION_SCREEN_ON))) {
 
             Log.i("ACTION_SCREEN ",intent.getAction().toString() + " " + Calendar.getInstance().getTime().toString());
@@ -25,15 +27,16 @@ public class MyBroadCastReciever extends BroadcastReceiver {
                 if (Timetemp>0)
                 {
                     TimeUsage += (Calendar.getInstance().getTimeInMillis()-Timetemp);
-                    MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,TimeUsage);
-                    Log.i("ACTION_SCREEN_OFF ",String.valueOf(TimeUsage));
+                    MainActivity.saveUsageTime(context,MainActivity.mAppWidgetId,TimeUsage);
+                    MainActivity.saveTempTime(context,MainActivity.mAppWidgetId,Timetemp);
+                    Log.i("ACTION_SCREEN_OFF ",(new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage)));
                 }
             }
             else
             {
                 Timetemp = Calendar.getInstance().getTimeInMillis();
-                //MainActivity.saveTitleNum0(context,MainActivity.mAppWidgetId,Timetemp);
-                Log.i("ACTION_SCREEN_ON ",String.valueOf(Timetemp));
+                MainActivity.saveTempTime(context,MainActivity.mAppWidgetId,Timetemp);
+                Log.i("ACTION_SCREEN_ON ",(new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.Timetemp)));
             }
 
         }

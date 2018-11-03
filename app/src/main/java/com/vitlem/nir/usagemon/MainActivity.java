@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.WRITE_EXTERNAL_STORAGE },
                 MY_PERMISSIONS_REQUEST);
         */
-
+        Intent intent = new Intent(context, ScreenMonService.class);
+        startService(intent);
         button = (Button) findViewById(R.id.bRestart);
 // add button listener
         button.setOnClickListener(new View.OnClickListener() {
@@ -72,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
                                         if(userInput.getText().toString().equals("27321496"))
                                         {
                                             Log.i("PassOK","PassOK");
-                                           MyBroadCastReciever.TimeUsage=0;
+                                            MyBroadCastReciever.TimeUsage=0;
                                             MyBroadCastReciever.Timetemp= Calendar.getInstance().getTimeInMillis();
-                                           saveTitleNum0(context,mAppWidgetId,0);
+                                            saveUsageTime(context,mAppWidgetId,0);
+                                            saveTempTime(context,mAppWidgetId,MyBroadCastReciever.Timetemp);
                                            UpdateText();
                                         };
                                     }
@@ -98,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        MyBroadCastReciever.TimeUsage=loadTitlePrefNum0(this,mAppWidgetId);
-        Intent intent = new Intent(this, ScreenMonService.class);
-        startService(intent);
+        MyBroadCastReciever.TimeUsage=loadsaveUsageTime(this,mAppWidgetId);
+        MyBroadCastReciever.Timetemp=loadsaveTempTime(this,mAppWidgetId);
+
         UpdateText();
 
 
@@ -108,20 +110,23 @@ public class MainActivity extends AppCompatActivity {
 
     protected  void OnDestroy(){
         super.onDestroy();
-        Log.i("OnDestroy",String.valueOf(MyBroadCastReciever.TimeUsage));
-        saveTitleNum0(this,mAppWidgetId,MyBroadCastReciever.TimeUsage);
+        Log.i("OnDestroy",(new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage)));
+        saveUsageTime(this,mAppWidgetId,MyBroadCastReciever.TimeUsage);
+        saveTempTime(this,mAppWidgetId,MyBroadCastReciever.Timetemp);
 
     }
 
     protected  void onStop(){
         super.onStop();
-        Log.i("onStop",String.valueOf(MyBroadCastReciever.TimeUsage));
-        saveTitleNum0(this,mAppWidgetId,MyBroadCastReciever.TimeUsage);
+        Log.i("onStop",(new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage)));
+        saveUsageTime(this,mAppWidgetId,MyBroadCastReciever.TimeUsage);
+        saveTempTime(this,mAppWidgetId,MyBroadCastReciever.Timetemp);
+
     }
 
     protected void onResume () {
         super.onResume();
-        Log.i("onResume",String.valueOf(MyBroadCastReciever.TimeUsage));
+        Log.i("onResume",(new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage)));
         UpdateText();
 }
 
@@ -138,29 +143,52 @@ public class MainActivity extends AppCompatActivity {
         //if (MyBroadCastReciever.Timetemp>0)
         MyBroadCastReciever.TimeUsage += (Calendar.getInstance().getTimeInMillis()-MyBroadCastReciever.Timetemp);
         MyBroadCastReciever.Timetemp = Calendar.getInstance().getTimeInMillis();
-        saveTitleNum0(this,mAppWidgetId,MyBroadCastReciever.TimeUsage);
+        saveUsageTime(this,mAppWidgetId,MyBroadCastReciever.TimeUsage);
+        saveTempTime(this,mAppWidgetId,MyBroadCastReciever.Timetemp);
         String t =( new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage));
         tv.setText(t);
-        Log.i("UpdateText",String.valueOf(MyBroadCastReciever.TimeUsage));
+        Log.i("UpdateText",(new SimpleDateFormat("mm:ss")).format(new Date(MyBroadCastReciever.TimeUsage)));
     }
 
 
     // Write the prefix to the SharedPreferences object for this widget
-    static void saveTitleNum0(Context context, int appWidgetId, long text) {
+    static void saveUsageTime(Context context, int appWidgetId, long text) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.putLong(PREF_PREFIX_KEY + appWidgetId+ getCurrentDateinLong(0), text);
         prefs.apply();
-        Log.i("S_titleValue",String.valueOf(text));
+        Log.i("saveUsageTime",(new SimpleDateFormat("mm:ss")).format(new Date(text)));
     }
 
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from a resource
-    static long loadTitlePrefNum0(Context context, int appWidgetId) {
+    static long loadsaveUsageTime(Context context, int appWidgetId) {
         //Log.d("getCurrentDateinLong ",String.valueOf(getCurrentDateinLong(0)));
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
         Long titleValue = prefs.getLong(PREF_PREFIX_KEY + appWidgetId+ getCurrentDateinLong(0), 0);
         if (titleValue >0 ) {
-            Log.i("L_titleValue",String.valueOf(titleValue));
+            Log.i("loadsaveUsageTime",(new SimpleDateFormat("mm:ss")).format(new Date(titleValue)));
+            return titleValue;
+        } else {
+            return 0;
+        }
+    }
+
+    // Write the prefix to the SharedPreferences object for this widget
+    static void saveTempTime(Context context, int appWidgetId, long text) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        prefs.putLong(PREF_PREFIX_KEY + appWidgetId+ getCurrentDateinLong(0)+1000, text);
+        prefs.apply();
+        Log.i("saveTempTime",(new SimpleDateFormat("mm:ss")).format(new Date(text)));
+    }
+
+    // Read the prefix from the SharedPreferences object for this widget.
+    // If there is no preference saved, get the default from a resource
+    static long loadsaveTempTime(Context context, int appWidgetId) {
+        //Log.d("getCurrentDateinLong ",String.valueOf(getCurrentDateinLong(0)));
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        Long titleValue = prefs.getLong(PREF_PREFIX_KEY + appWidgetId+ getCurrentDateinLong(0)+1000, 0);
+        if (titleValue >0 ) {
+            Log.i("loadsaveTempTime",(new SimpleDateFormat("mm:ss")).format(new Date(titleValue)));
             return titleValue;
         } else {
             return 0;

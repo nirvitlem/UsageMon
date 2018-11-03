@@ -54,6 +54,7 @@ public class ScreenMonService extends IntentService {
         intent.setAction(ACTION_FOO);
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
+        Log.i("startActionFoo", "startActionFoo");
         context.startService(intent);
         //MyBroadCastReciever.Timetemp = Calendar.getInstance().getTimeInMillis();
     }
@@ -75,6 +76,7 @@ public class ScreenMonService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.i("onHandleIntent", "onHandleIntent");
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_FOO.equals(action)) {
@@ -91,7 +93,7 @@ public class ScreenMonService extends IntentService {
             filter.addAction(Intent.ACTION_SCREEN_OFF);
             mReceiver = new MyBroadCastReciever();
             registerReceiver(mReceiver, filter);
-            Log.i("mReceiver", "create");
+            Log.i("onHandleIntent", "not null");
         }
         try {
 
