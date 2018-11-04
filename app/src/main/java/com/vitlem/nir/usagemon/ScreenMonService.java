@@ -1,15 +1,12 @@
 package com.vitlem.nir.usagemon;
 
 import android.app.IntentService;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
-import java.util.Calendar;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -43,10 +40,10 @@ public class ScreenMonService extends IntentService {
      */
     // TODO: Customize helper method
 
-    @Override
+  /*  @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return Service.START_STICKY;
-    }
+    }*/
 
 
     public static void startActionFoo(Context context, String param1, String param2) {
