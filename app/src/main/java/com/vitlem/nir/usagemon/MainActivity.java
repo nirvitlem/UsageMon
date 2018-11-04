@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public static SimplePrefs sp;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
          new SimplePrefs.Builder()
@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
         t = new CountUpTimer(10000) {
             @Override
             public void onTick(long elapsedTime) {
-                TextView tv = findViewById(R.id.UsageText);
-                tv.setText(Long.valueOf(t.getTimer()).toString());
+                UpdateText();
+              //  TextView tv = findViewById(R.id.UsageText);
+              //  tv.setText(Long.valueOf(t.getTimer()).toString());
             }
         };
         t.startat(loadsaveUsageTime(context,mAppWidgetId));
@@ -91,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
                                         {
                                             Log.i("PassOK","PassOK");
                                             t.reset();
-                                           UpdateText();
+                                            saveUsageTime(context,mAppWidgetId,t.getTimer());
+                                            UpdateText();
                                         };
                                     }
                                 })
@@ -159,8 +161,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void UpdateText()
     {
+        //loadsaveUsageTime(context,mAppWidgetId);
         TextView tv = findViewById(R.id.UsageText);
-        tv.setText(Long.valueOf(t.getTimer()).toString());
+        long te = t.getTimer();
+        long p1 = te % 60;
+        long p2 = te / 60;
+        long p3 = p2 % 60;
+
+        p2 = p2 / 60;
+
+        tv.setText(" " +p2 + ":" + p3 + ":" + p1);
         Log.i("UpdateText", Long.valueOf(MainActivity.t.getTimer()).toString());
     }
 
@@ -168,15 +178,15 @@ public class MainActivity extends AppCompatActivity {
     // Write the prefix to the SharedPreferences object for this widget
     static void saveUsageTime(Context context, int appWidgetId, long text) {
 
-        SimplePrefs.putLong(PREF_PREFIX_KEY + getCurrentDateinLong(0),text);
+        SimplePrefs.putLong(PREF_PREFIX_KEY ,text);
         Log.i("saveUsageTime", Long.valueOf(text).toString());
-        SimplePrefs.remove(PREF_PREFIX_KEY + getCurrentDateinLong(-1));
+       // SimplePrefs.remove(PREF_PREFIX_KEY + getCurrentDateinLong(-1));
     }
 
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from a resource
     static long loadsaveUsageTime(Context context, int appWidgetId) {
-        Long titleValue  = SimplePrefs.getLong(PREF_PREFIX_KEY+ getCurrentDateinLong(0));
+        Long titleValue  = SimplePrefs.getLong(PREF_PREFIX_KEY);
         if (titleValue >0 ) {
             Log.i("loadsaveUsageTime", Long.valueOf(titleValue).toString());
             return titleValue;
