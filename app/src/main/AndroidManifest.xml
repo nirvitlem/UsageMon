@@ -19,17 +19,14 @@
 
         <service
             android:name=".ScreenMonService"
-            android:exported="true"
             android:enabled="true"/>
 
         <receiver
             android:name=".MyBroadCastReciever"
-            android:enabled="true"
-            android:exported="true">
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.SCREEN_OFF"/>
                 <action android:name="android.intent.action.SCREEN_ON"/>
-                <action android:name="android.intent.action.EXTRA_STATE" />
             </intent-filter>
 
         </receiver>

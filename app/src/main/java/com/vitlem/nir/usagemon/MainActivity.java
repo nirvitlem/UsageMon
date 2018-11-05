@@ -57,9 +57,19 @@ public class MainActivity extends AppCompatActivity {
       //          new String[]{Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.WRITE_EXTERNAL_STORAGE },
      //          MY_PERMISSIONS_REQUEST);
 
-        Intent intent = new Intent(context, ScreenMonService.class);
+        Intent intent = new Intent(getApplicationContext(), ScreenMonService.class);
         startService(intent);
-        button = (Button) findViewById(R.id.bRestart);
+        Button b = (Button)findViewById(R.id.bUpdateTime) ;
+        b.setOnClickListener(new View.OnClickListener() {
+
+                                 @Override
+                                 public void onClick(View arg0) {
+                                     UpdateText();
+                                 }
+                             });
+
+
+                button = (Button) findViewById(R.id.bRestart);
 // add button listener
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -116,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        UpdateText();
+       // UpdateText();
 
 
     }
@@ -124,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     protected  void OnDestroy(){
         super.onDestroy();
         Log.i("OnDestroy", Long.valueOf(MainActivity.t.getTimer()).toString());
+
         saveUsageTime(this,mAppWidgetId,MainActivity.t.getTimer());
 
     }
@@ -131,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
     protected  void onStop(){
         super.onStop();
         Log.i("onStop",Long.valueOf(MainActivity.t.getTimer()).toString());
+
         saveUsageTime(this,mAppWidgetId,MainActivity.t.getTimer());
     }
 
@@ -143,19 +155,19 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
-            t.startat(loadsaveUsageTime(context,mAppWidgetId));
+          //  t.startat(loadsaveUsageTime(context,mAppWidgetId));
         }
         else
         {
             Log.i("onResume", Long.valueOf(MainActivity.t.getTimer()).toString());
         }
-        UpdateText();
+     //   UpdateText();
 }
 
     protected void onRestart () {
         super.onRestart();
 
-        UpdateText();
+      //  UpdateText();
 
     }
 

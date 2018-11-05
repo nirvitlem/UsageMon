@@ -25,10 +25,10 @@ public abstract class CountUpTimer {
     }
 
     public void startat(long t) {
-        Log.i("Startat stytem ", Long.valueOf(SystemClock.elapsedRealtime()).toString());
-        Log.i("Startat t ", Long.valueOf(t*1000).toString());
+     //   Log.i("Startat stytem ", Long.valueOf(SystemClock.elapsedRealtime()).toString());
+     //   Log.i("Startat t ", Long.valueOf(t*1000).toString());
         base = SystemClock.elapsedRealtime()- (t*1000);
-        Log.i("Startat base ", Long.valueOf(base).toString());
+     //   Log.i("Startat base ", Long.valueOf(base).toString());
         handler.sendMessage(handler.obtainMessage(MSG));
     }
 
@@ -38,8 +38,8 @@ public abstract class CountUpTimer {
 
     public long getTimer()
     {
-        Log.i("getTimer stytem ", Long.valueOf(SystemClock.elapsedRealtime()).toString());
-        Log.i("getTimer base ", Long.valueOf(base).toString());
+      //  Log.i("getTimer stytem ", Long.valueOf(SystemClock.elapsedRealtime()).toString());
+     //   Log.i("getTimer base ", Long.valueOf(base).toString());
         return  (SystemClock.elapsedRealtime() - base)/1000;
     }
 
