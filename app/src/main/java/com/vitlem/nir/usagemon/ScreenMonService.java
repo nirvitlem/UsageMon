@@ -1,12 +1,18 @@
 package com.vitlem.nir.usagemon;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import static com.vitlem.nir.usagemon.MainActivity.mAppWidgetId;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -18,7 +24,7 @@ import android.util.Log;
 public class ScreenMonService extends Service {
 
     private MyBroadCastReciever screenOnOffReceiver = null;
-
+    public static CountUpTimer t;
 
     @Nullable
     @Override
@@ -34,6 +40,26 @@ public class ScreenMonService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Log.i("ScreenOnOfService", "Service onCreate:.");
+
+        new SimplePrefs.Builder()
+                .setPrefsName("myapppreference")
+                .setContext(getApplicationContext())
+                .setMode(MODE_PRIVATE)
+                .setDefaultUse(false)
+                .build();
+
+        //setContentView(R.layout.activity_main);
+        t = new CountUpTimer(10000) {
+            @Override
+            public void onTick(long elapsedTime) {
+                // MainActivity.UpdateText();
+                //  TextView tv = findViewById(R.id.UsageText);
+                //  tv.setText(Long.valueOf(t.getTimer()).toString());
+            }
+        };
+        t.startat(MainActivity.loadsaveUsageTime(getApplicationContext(),mAppWidgetId));
 
         // Create an IntentFilter instance.
         IntentFilter intentFilter = new IntentFilter();
@@ -51,10 +77,12 @@ public class ScreenMonService extends Service {
         // Register the broadcast receiver with the intent filter object.
         registerReceiver(screenOnOffReceiver, intentFilter);
 
-        Log.i("ScreenOnOffReceiver.SCREEN_TOGGLE_TAG", "Service onCreate: screenOnOffReceiver is registered.");
+
+        Log.i("MyBroadCastReciever.SCREEN_TOGGLE_TAG", "Service onCreate: MyBroadCastReciever is registered.");
     }
 
-  /*  @Override
+
+    @Override
     public void onTaskRemoved(Intent rootIntent) {
         Intent restartServiceIntent = new Intent(getApplicationContext(), this.getClass());
         restartServiceIntent.setPackage(getPackageName());
@@ -68,7 +96,7 @@ public class ScreenMonService extends Service {
 
         super.onTaskRemoved(rootIntent);
     }
-*/
+
   /*  @Override
     protected void onHandleIntent(Intent intent) {
         Log.i("onHandleIntent", "onHandleIntent");

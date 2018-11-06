@@ -28,31 +28,15 @@ public class MainActivity extends AppCompatActivity {
     public static int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private Button button;
     final Context context = this;
-    public static  CountUpTimer t;
     public static SimplePrefs sp;
+    public static TextView tv;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         new SimplePrefs.Builder()
-                .setPrefsName("myapppreference")
-                .setContext(this)
-                .setMode(MODE_PRIVATE)
-                .setDefaultUse(false)
-                .build();
-
         setContentView(R.layout.activity_main);
-        t = new CountUpTimer(10000) {
-            @Override
-            public void onTick(long elapsedTime) {
-                UpdateText();
-              //  TextView tv = findViewById(R.id.UsageText);
-              //  tv.setText(Long.valueOf(t.getTimer()).toString());
-            }
-        };
-        t.startat(loadsaveUsageTime(context,mAppWidgetId));
-
+        tv = findViewById(R.id.UsageText);
       //  ActivityCompat.requestPermissions(this,
       //          new String[]{Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.WRITE_EXTERNAL_STORAGE },
      //          MY_PERMISSIONS_REQUEST);
@@ -101,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                                         if(userInput.getText().toString().equals("27321496"))
                                         {
                                             Log.i("PassOK","PassOK");
-                                            t.reset();
-                                            saveUsageTime(context,mAppWidgetId,t.getTimer());
+                                            ScreenMonService.t.reset();
+                                            saveUsageTime(context,mAppWidgetId,ScreenMonService.t.getTimer());
                                             UpdateText();
                                         };
                                     }
@@ -126,56 +110,43 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-       // UpdateText();
+        if (ScreenMonService.t !=null)  UpdateText();
 
 
     }
 
     protected  void OnDestroy(){
         super.onDestroy();
-        Log.i("OnDestroy", Long.valueOf(MainActivity.t.getTimer()).toString());
+        Log.i("OnDestroy", Long.valueOf(ScreenMonService.t.getTimer()).toString());
 
-        saveUsageTime(this,mAppWidgetId,MainActivity.t.getTimer());
+        saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
 
     }
 
     protected  void onStop(){
         super.onStop();
-        Log.i("onStop",Long.valueOf(MainActivity.t.getTimer()).toString());
+        Log.i("onStop",Long.valueOf(ScreenMonService.t.getTimer()).toString());
 
-        saveUsageTime(this,mAppWidgetId,MainActivity.t.getTimer());
+        saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
     }
 
     protected void onResume () {
         super.onResume();
-        if (t==null) {
-            t = new CountUpTimer(7200) {
-                @Override
-                public void onTick(long elapsedTime) {
 
-                }
-            };
-          //  t.startat(loadsaveUsageTime(context,mAppWidgetId));
-        }
-        else
-        {
-            Log.i("onResume", Long.valueOf(MainActivity.t.getTimer()).toString());
-        }
-     //   UpdateText();
+      if (ScreenMonService.t !=null)  UpdateText();
 }
 
     protected void onRestart () {
         super.onRestart();
 
-      //  UpdateText();
+         UpdateText();
 
     }
 
-    private void UpdateText()
+    private static void UpdateText()
     {
         //loadsaveUsageTime(context,mAppWidgetId);
-        TextView tv = findViewById(R.id.UsageText);
-        long te = t.getTimer();
+        long te = ScreenMonService.t.getTimer();
         long p1 = te % 60;
         long p2 = te / 60;
         long p3 = p2 % 60;
@@ -183,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         p2 = p2 / 60;
 
         tv.setText(" " +p2 + ":" + p3 + ":" + p1);
-        Log.i("UpdateText", Long.valueOf(MainActivity.t.getTimer()).toString());
+        Log.i("UpdateText", Long.valueOf(ScreenMonService.t.getTimer()).toString());
     }
 
 
@@ -215,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor prefs = context.getSharedPreferences(name, 0).edit();
                 prefs.remove(PREF_PREFIX_KEY + appWidgetId + getCurrentDateinLong(-1));
                 prefs.apply();
-                Log.i("Delete Pref",  Long.valueOf(MainActivity.t.getTimer()).toString());
+                Log.i("Delete Pref",  Long.valueOf(ScreenMonService.t.getTimer()).toString());
             }
         }
         catch (Exception e)
