@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                                         {
                                             Log.i("PassOK","PassOK");
                                             ScreenMonService.t.reset();
-                                            fc.WriteBtn(String.valueOf(mAppWidgetId,ScreenMonService.t.getTimer()));
+                                            fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
                                            // saveUsageTime(context,mAppWidgetId,ScreenMonService.t.getTimer());
                                             UpdateText();
                                         };
