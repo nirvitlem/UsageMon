@@ -25,6 +25,7 @@ public class ScreenMonService extends Service {
 
     private MyBroadCastReciever screenOnOffReceiver = null;
     public static CountUpTimer t;
+    private FileClass fc;
 
     @Nullable
     @Override
@@ -40,7 +41,7 @@ public class ScreenMonService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        fc=new FileClass();
         Log.i("ScreenOnOfService", "Service onCreate:.");
 
         new SimplePrefs.Builder()
@@ -59,7 +60,7 @@ public class ScreenMonService extends Service {
                 //  tv.setText(Long.valueOf(t.getTimer()).toString());
             }
         };
-        t.startat(MainActivity.loadsaveUsageTime(getApplicationContext(),mAppWidgetId));
+        t.startat(fc.ReadBtn());
         // Create an IntentFilter instance.
         IntentFilter intentFilter = new IntentFilter();
 
@@ -136,7 +137,7 @@ public class ScreenMonService extends Service {
         if(screenOnOffReceiver!=null) {
            // Intent intent = new Intent(this, ScreenMonService.class);
             //startService(intent);
-            MainActivity.saveUsageTime(getApplicationContext(),mAppWidgetId,t.getTimer());
+            fc.WriteBtn(String.valueOf(t.getTimer()));
             Log.i("onDestroy", "unregisterReceiver");
             unregisterReceiver(screenOnOffReceiver);
 

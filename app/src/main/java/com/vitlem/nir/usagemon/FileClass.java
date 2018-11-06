@@ -17,11 +17,13 @@ public class FileClass extends Activity {
 
     static final int READ_BLOCK_SIZE = 100;
 
+
     // write text to file
     public void WriteBtn(String t) {
         // add-write text into file
         try {
-            FileOutputStream fileout= openFileOutput("Usgafile.txt", MODE_PRIVATE);
+
+            FileOutputStream fileout= this.openFileOutput("Usgafile.txt", MODE_PRIVATE);
             OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
             outputWriter.write(t);
             outputWriter.close();
@@ -39,7 +41,7 @@ public class FileClass extends Activity {
     public long ReadBtn() {
         //reading text from file
         try {
-            FileInputStream fileIn=openFileInput("Usgafile.txt");
+            FileInputStream fileIn=this.openFileInput("Usgafile.txt");
             InputStreamReader InputRead= new InputStreamReader(fileIn);
 
             char[] inputBuffer= new char[READ_BLOCK_SIZE];
