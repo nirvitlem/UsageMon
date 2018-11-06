@@ -60,7 +60,6 @@ public class ScreenMonService extends Service {
             }
         };
         t.startat(MainActivity.loadsaveUsageTime(getApplicationContext(),mAppWidgetId));
-
         // Create an IntentFilter instance.
         IntentFilter intentFilter = new IntentFilter();
 
@@ -137,6 +136,7 @@ public class ScreenMonService extends Service {
         if(screenOnOffReceiver!=null) {
            // Intent intent = new Intent(this, ScreenMonService.class);
             //startService(intent);
+            MainActivity.saveUsageTime(getApplicationContext(),mAppWidgetId,t.getTimer());
             Log.i("onDestroy", "unregisterReceiver");
             unregisterReceiver(screenOnOffReceiver);
 

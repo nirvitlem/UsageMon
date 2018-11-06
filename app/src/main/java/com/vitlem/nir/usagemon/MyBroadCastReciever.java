@@ -32,7 +32,8 @@ public class MyBroadCastReciever extends BroadcastReceiver {
             else
             {
                 Log.i("Load Timer after screen on ",Long.valueOf(MainActivity.loadsaveUsageTime(context,mAppWidgetId)).toString());
-                ScreenMonService.t.startat(MainActivity.loadsaveUsageTime(context,mAppWidgetId));
+                ScreenMonService.t.start();
+               // ScreenMonService.t.startat(MainActivity.loadsaveUsageTime(context,mAppWidgetId));
                 Log.i("ACTION_SCREEN_ON ", Long.valueOf(ScreenMonService.t.getTimer()).toString());
             }
 

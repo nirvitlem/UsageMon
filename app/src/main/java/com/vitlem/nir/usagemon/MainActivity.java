@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                              });
 
 
-                button = (Button) findViewById(R.id.bRestart);
+        button = (Button) findViewById(R.id.bRestart);
 // add button listener
         button.setOnClickListener(new View.OnClickListener() {
 
