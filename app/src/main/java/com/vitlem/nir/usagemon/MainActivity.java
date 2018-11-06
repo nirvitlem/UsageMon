@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     final Context context = this;
     public static SimplePrefs sp;
     public static TextView tv;
+    private FileClass fc ;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         tv = findViewById(R.id.UsageText);
+        fc= new FileClass();
       //  ActivityCompat.requestPermissions(this,
       //          new String[]{Manifest.permission.READ_EXTERNAL_STORAGE , Manifest.permission.WRITE_EXTERNAL_STORAGE },
      //          MY_PERMISSIONS_REQUEST);
@@ -86,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
                                         {
                                             Log.i("PassOK","PassOK");
                                             ScreenMonService.t.reset();
-                                            saveUsageTime(context,mAppWidgetId,ScreenMonService.t.getTimer());
+                                            fc.WriteBtn(String.valueOf(mAppWidgetId,ScreenMonService.t.getTimer()));
+                                           // saveUsageTime(context,mAppWidgetId,ScreenMonService.t.getTimer());
                                             UpdateText();
                                         };
                                     }
@@ -118,16 +121,16 @@ public class MainActivity extends AppCompatActivity {
     protected  void OnDestroy(){
         super.onDestroy();
         Log.i("OnDestroy", Long.valueOf(ScreenMonService.t.getTimer()).toString());
-
-        saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
+        fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
+        //saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
 
     }
 
     protected  void onStop(){
         super.onStop();
         Log.i("onStop",Long.valueOf(ScreenMonService.t.getTimer()).toString());
-
-        saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
+        fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
+       // saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
     }
 
     protected void onResume () {
@@ -158,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Write the prefix to the SharedPreferences object for this widget
+  /*  // Write the prefix to the SharedPreferences object for this widget
     static void saveUsageTime(Context context, int appWidgetId, long text) {
 
         SimplePrefs.putLong(PREF_PREFIX_KEY ,text);
@@ -194,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Delete Pref",e.getMessage() );
         }
     }
-
+*/
 
     private static int getCurrentDateinLong(int offset)
     {

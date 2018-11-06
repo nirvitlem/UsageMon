@@ -8,7 +8,7 @@ import android.util.Log;
 import static com.vitlem.nir.usagemon.MainActivity.mAppWidgetId;
 
 public class MyBroadCastReciever extends BroadcastReceiver {
-
+private FileClass fc;
 
 
 
@@ -16,7 +16,7 @@ public class MyBroadCastReciever extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
-
+fc=new FileClass();
         Log.i("MyBroadCastReciever ","onReceive");
         if ((intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) || (intent.getAction().equals(Intent.ACTION_SCREEN_ON))) {
 
@@ -25,15 +25,16 @@ public class MyBroadCastReciever extends BroadcastReceiver {
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
 
                 ScreenMonService.t.stop();
-                MainActivity.saveUsageTime(context, mAppWidgetId, ScreenMonService.t.getTimer());
+                fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
+           //     MainActivity.saveUsageTime(context, mAppWidgetId, ScreenMonService.t.getTimer());
                 Log.i("ACTION_SCREEN_OFF ", Long.valueOf(ScreenMonService.t.getTimer()).toString());
 
             }
             else
             {
-                Log.i("Load Timer after screen on ",Long.valueOf(MainActivity.loadsaveUsageTime(context,mAppWidgetId)).toString());
-                ScreenMonService.t.start();
-               // ScreenMonService.t.startat(MainActivity.loadsaveUsageTime(context,mAppWidgetId));
+                Log.i("Load Timer after screen on ",Long.valueOf(fc.ReadBtn()).toString());
+               // ScreenMonService.t.start();
+                ScreenMonService.t.startat(fc.ReadBtn());
                 Log.i("ACTION_SCREEN_ON ", Long.valueOf(ScreenMonService.t.getTimer()).toString());
             }
 
