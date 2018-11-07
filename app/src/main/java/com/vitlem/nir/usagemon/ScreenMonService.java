@@ -23,10 +23,10 @@ import static com.vitlem.nir.usagemon.MainActivity.mAppWidgetId;
  */
 public class ScreenMonService extends Service {
 
-    private MyBroadCastReciever screenOnOffReceiver = null;
+    private static MyBroadCastReciever screenOnOffReceiver ;
     public static CountUpTimer t;
     private FileClass fc;
-    private IntentFilter intentFilter;
+
 
     @Nullable
     @Override
@@ -59,13 +59,14 @@ public class ScreenMonService extends Service {
                 // MainActivity.UpdateText();
                 //  TextView tv = findViewById(R.id.UsageText);
                 //  tv.settText(Long.valueOf(t.getTimer()).toString());
-                Log.i("onTick",String.valueOf(t.getTimer()));
-                fc.WriteBtn(getApplicationContext(),String.valueOf(t.getTimer()));
+              //  Log.i("onTick",String.valueOf(t.getTimer()));
+              //  fc.WriteBtn(getApplicationContext(),String.valueOf(t.getTimer()));
             }
         };
         t.startat(fc.ReadBtn(getApplicationContext()));
         // Create an IntentFilter instance.
-        intentFilter = new IntentFilter();
+
+        IntentFilter intentFilter = new IntentFilter();
 
         // Add network connectivity change action.
         intentFilter.addAction("android.intent.action.SCREEN_ON");
@@ -73,7 +74,6 @@ public class ScreenMonService extends Service {
 
         // Set broadcast receiver priority.
         intentFilter.setPriority(100);
-
         // Create a network change broadcast receiver.
         screenOnOffReceiver = new MyBroadCastReciever();
 
@@ -94,7 +94,7 @@ public class ScreenMonService extends Service {
         AlarmManager alarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         alarmService.set(
                 AlarmManager.ELAPSED_REALTIME,
-                SystemClock.elapsedRealtime() + 1000,
+                SystemClock.elapsedRealtime() + 5000,
                 restartServicePendingIntent);
 
         super.onTaskRemoved(rootIntent);
