@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                                         {
                                             Log.i("PassOK","PassOK");
                                             ScreenMonService.t.reset();
-                                            fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
+                                            fc.WriteBtn(context,String.valueOf(ScreenMonService.t.getTimer()));
                                            // saveUsageTime(context,mAppWidgetId,ScreenMonService.t.getTimer());
                                             UpdateText();
                                         };
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     protected  void OnDestroy(){
         super.onDestroy();
         Log.i("OnDestroy", Long.valueOf(ScreenMonService.t.getTimer()).toString());
-        fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
+        fc.WriteBtn(context,String.valueOf(ScreenMonService.t.getTimer()));
         //saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
 
     }
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     protected  void onStop(){
         super.onStop();
         Log.i("onStop",Long.valueOf(ScreenMonService.t.getTimer()).toString());
-        fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
+        fc.WriteBtn(context,String.valueOf(ScreenMonService.t.getTimer()));
        // saveUsageTime(this,mAppWidgetId,ScreenMonService.t.getTimer());
     }
 

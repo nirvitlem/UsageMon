@@ -13,17 +13,17 @@ import java.io.OutputStreamWriter;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class FileClass extends Activity {
+public class FileClass  {
 
     static final int READ_BLOCK_SIZE = 100;
 
 
     // write text to file
-    public void WriteBtn(String t) {
+    public void WriteBtn(Context context,String t) {
         // add-write text into file
         try {
 
-            FileOutputStream fileout= this.openFileOutput("Usgafile.txt", MODE_PRIVATE);
+            FileOutputStream fileout= context.openFileOutput("Usgafile.txt", MODE_PRIVATE);
             OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
             outputWriter.write(t);
             outputWriter.close();
@@ -38,10 +38,10 @@ public class FileClass extends Activity {
     }
 
     // Read text from file
-    public long ReadBtn() {
+    public long ReadBtn(Context context) {
         //reading text from file
         try {
-            FileInputStream fileIn=this.openFileInput("Usgafile.txt");
+            FileInputStream fileIn=context.openFileInput("Usgafile.txt");
             InputStreamReader InputRead= new InputStreamReader(fileIn);
 
             char[] inputBuffer= new char[READ_BLOCK_SIZE];

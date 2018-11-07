@@ -16,7 +16,8 @@ private FileClass fc;
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
-fc=new FileClass();
+        fc=new FileClass();
+
         Log.i("MyBroadCastReciever ","onReceive");
         if ((intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) || (intent.getAction().equals(Intent.ACTION_SCREEN_ON))) {
 
@@ -25,16 +26,16 @@ fc=new FileClass();
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
 
                 ScreenMonService.t.stop();
-                fc.WriteBtn(String.valueOf(ScreenMonService.t.getTimer()));
+                fc.WriteBtn(context,String.valueOf(ScreenMonService.t.getTimer()));
            //     MainActivity.saveUsageTime(context, mAppWidgetId, ScreenMonService.t.getTimer());
                 Log.i("ACTION_SCREEN_OFF ", Long.valueOf(ScreenMonService.t.getTimer()).toString());
 
             }
             else
             {
-                Log.i("Load Timer after screen on ",Long.valueOf(fc.ReadBtn()).toString());
+                Log.i("Load Timer after screen on ",Long.valueOf(fc.ReadBtn(context)).toString());
                // ScreenMonService.t.start();
-                ScreenMonService.t.startat(fc.ReadBtn());
+                ScreenMonService.t.startat(fc.ReadBtn(context));
                 Log.i("ACTION_SCREEN_ON ", Long.valueOf(ScreenMonService.t.getTimer()).toString());
             }
 

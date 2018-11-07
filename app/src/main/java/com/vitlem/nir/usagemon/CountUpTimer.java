@@ -9,7 +9,7 @@ import android.util.Log;
  * Simple timer class which count up until stopped.
  * Inspired by {@link android.os.CountDownTimer}
  */
-public abstract class CountUpTimer {
+public abstract class   CountUpTimer {
 
     private final long interval;
     private long base;

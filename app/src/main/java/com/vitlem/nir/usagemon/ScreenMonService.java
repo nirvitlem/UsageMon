@@ -26,6 +26,7 @@ public class ScreenMonService extends Service {
     private MyBroadCastReciever screenOnOffReceiver = null;
     public static CountUpTimer t;
     private FileClass fc;
+    private IntentFilter intentFilter;
 
     @Nullable
     @Override
@@ -52,17 +53,19 @@ public class ScreenMonService extends Service {
                 .build();
 
         //setContentView(R.layout.activity_main);
-        t = new CountUpTimer(10000) {
+        t = new CountUpTimer(30000) {
             @Override
             public void onTick(long elapsedTime) {
                 // MainActivity.UpdateText();
                 //  TextView tv = findViewById(R.id.UsageText);
-                //  tv.setText(Long.valueOf(t.getTimer()).toString());
+                //  tv.settText(Long.valueOf(t.getTimer()).toString());
+                Log.i("onTick",String.valueOf(t.getTimer()));
+                fc.WriteBtn(getApplicationContext(),String.valueOf(t.getTimer()));
             }
         };
-        t.startat(fc.ReadBtn());
+        t.startat(fc.ReadBtn(getApplicationContext()));
         // Create an IntentFilter instance.
-        IntentFilter intentFilter = new IntentFilter();
+        intentFilter = new IntentFilter();
 
         // Add network connectivity change action.
         intentFilter.addAction("android.intent.action.SCREEN_ON");
@@ -137,10 +140,10 @@ public class ScreenMonService extends Service {
         if(screenOnOffReceiver!=null) {
            // Intent intent = new Intent(this, ScreenMonService.class);
             //startService(intent);
-            fc.WriteBtn(String.valueOf(t.getTimer()));
+            fc.WriteBtn(getApplicationContext(),String.valueOf(t.getTimer()));
             Log.i("onDestroy", "unregisterReceiver");
             unregisterReceiver(screenOnOffReceiver);
-
+            //registerReceiver(screenOnOffReceiver,intentFilter);
         }
     }
 }
